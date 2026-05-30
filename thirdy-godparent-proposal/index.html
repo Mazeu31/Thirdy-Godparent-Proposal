@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Be My God Parents?</title>
-  
+<link rel="icon" type="image/png" href="icon.jpg">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
@@ -25,6 +25,7 @@
     .bg {
       background-image: url("bg.jpg");
       background-size: cover;
+      background-position: center;
     }
 
     .animate-fade1 {
@@ -68,10 +69,111 @@
         opacity: 0;
       }
     }
+
+    @keyframes babyBounce {
+      0%, 100% {
+        transform: translateY(0) rotate(-3deg);
+      }
+
+      50% {
+        transform: translateY(-14px) rotate(3deg);
+      }
+    }
+
+    @keyframes heartFloat {
+      0% {
+        transform: translateY(18px) scale(0.85);
+        opacity: 0;
+      }
+
+      25% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-70px) scale(1.15);
+        opacity: 0;
+      }
+    }
+
+    @keyframes softSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes progressGlow {
+      0%, 100% {
+        opacity: 0.45;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    #preloader.preloader-hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 500ms ease, visibility 500ms ease;
+    }
+
+    .baby-bounce {
+      animation: babyBounce 1.2s ease-in-out infinite;
+    }
+
+    .heart-float {
+      animation: heartFloat 2s ease-in-out infinite;
+    }
+
+    .heart-float.delay-1 {
+      animation-delay: 0.35s;
+    }
+
+    .heart-float.delay-2 {
+      animation-delay: 0.7s;
+    }
+
+    .soft-spin {
+      animation: softSpin 1.6s linear infinite;
+    }
+
+    .progress-glow {
+      animation: progressGlow 1s ease-in-out infinite;
+    }
   </style>
 </head>
 
 <body class="min-h-screen overflow-x-hidden bg-sky-50 text-slate-800">
+  <div id="preloader" class="fixed inset-0 z-[10000] flex items-center justify-center bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 px-5">
+    <div class="relative w-full max-w-sm rounded-[2rem] border border-sky-100 bg-white/80 p-7 text-center shadow-2xl shadow-sky-100 backdrop-blur-md sm:p-8">
+      <div class="absolute inset-x-0 top-0 h-1.5 rounded-t-[2rem] bg-gradient-to-r from-sky-300 via-blue-200 to-cyan-200"></div>
+
+      <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
+        <span class="heart-float absolute bottom-10 left-10 text-2xl">💙</span>
+        <span class="heart-float delay-1 absolute bottom-6 right-12 text-xl">✨</span>
+        <span class="heart-float delay-2 absolute bottom-14 left-1/2 text-2xl">🍼</span>
+      </div>
+
+      <div class="relative mx-auto mb-5 flex h-28 w-28 items-center justify-center rounded-full bg-sky-50 shadow-lg shadow-sky-100">
+        <div class="soft-spin absolute inset-0 rounded-full border-4 border-sky-100 border-t-sky-400"></div>
+        <div class="baby-bounce relative text-5xl">👶</div>
+      </div>
+
+      <p class="text-xs font-black uppercase tracking-[0.32em] text-sky-400">Please Wait</p>
+      <h2 class="mt-3 text-3xl font-black text-slate-900 sm:text-4xl">Preparing the surprise</h2>
+      <p id="preloaderText" class="mt-3 text-sm font-medium leading-relaxed text-slate-600 sm:text-base">
+        Loading Thirdy's cute photos, music, and little blue sparkles...
+      </p>
+
+      <div class="mt-6 h-3 overflow-hidden rounded-full bg-sky-100">
+        <div id="preloaderBar" class="h-full w-[8%] rounded-full bg-gradient-to-r from-sky-400 to-cyan-300 transition-all duration-300 progress-glow"></div>
+      </div>
+      <p id="preloaderPercent" class="mt-3 text-sm font-bold text-sky-500">0%</p>
+    </div>
+  </div>
+
   <div id="tsparticles" class="fixed inset-0 -z-20"></div>
   <div class="bg fixed inset-0 -z-10"></div>
 
@@ -82,10 +184,8 @@
   </div>
 
   <main class="relative min-h-screen flex items-center justify-center px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
-    <section
-      class="w-full max-w-5xl rounded-[2rem] lg:rounded-[2.5rem] border border-sky-100 bg-white/50 backdrop-blur-md shadow-soft overflow-hidden">
-      <div
-        class="relative px-5 pt-8 pb-7 sm:px-8 sm:pt-10 sm:pb-8 md:px-12 md:pt-12 md:pb-10 lg:px-16 lg:pt-14 lg:pb-12">
+    <section class="w-full max-w-5xl rounded-[2rem] lg:rounded-[2.5rem] border border-sky-100 bg-white/50 backdrop-blur-md shadow-soft overflow-hidden">
+      <div class="relative px-5 pt-8 pb-7 sm:px-8 sm:pt-10 sm:pb-8 md:px-12 md:pt-12 md:pb-10 lg:px-16 lg:pt-14 lg:pb-12">
         <div class="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-sky-300 via-blue-200 to-cyan-200"></div>
 
         <div class="flex items-center justify-center gap-3 sm:gap-4 text-sky-500 mb-4 sm:mb-5 text-center">
@@ -96,24 +196,20 @@
 
         <div class="flex justify-center mb-4 sm:mb-5">
           <div class="h-[200px] w-[200px] rounded-full bg-sky-50 shadow-lg border border-sky-100 overflow-hidden">
-            <img id="profileImage" src="thirdy_head_1.png" alt="Profile"
-              class="w-full h-full object-cover transition-opacity duration-500">
+            <img id="profileImage" src="thirdy_head_1.png?v=1.0.1" alt="Profile" class="w-full h-full object-cover transition-opacity duration-500">
           </div>
         </div>
 
-        <h1 id="questionTitle"
-          class="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 leading-tight">
+        <h1 id="questionTitle" class="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 leading-tight">
           Can you be my <span class="text-sky-500"><br />God Parents</span>?
         </h1>
 
-        <p
-          class="mt-4 text-center text-slate-600 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-3xl mx-auto">
+        <p class="mt-4 text-center text-slate-600 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-3xl mx-auto">
           As one of Mom and Dad's favorite people, <br />your presence in
           their lives has always been a blessing.
         </p>
 
-        <div
-          class="mt-5 max-w-3xl mx-auto rounded-3xl border border-sky-100 bg-sky-50/80 px-5 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7 text-center text-slate-600 text-sm sm:text-base md:text-lg leading-relaxed space-y-3 shadow-sm">
+        <div class="mt-5 max-w-3xl mx-auto rounded-3xl border border-sky-100 bg-sky-50/80 px-5 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7 text-center text-slate-600 text-sm sm:text-base md:text-lg leading-relaxed space-y-3 shadow-sm">
           <p>
             If you are willing to accept, <br />
             we'll be delighted to have you play a special role in my
@@ -123,33 +219,24 @@
         </div>
 
         <div class="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-3xl mx-auto">
-          <button id="yesBtn"
-            class="rounded-2xl px-5 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 text-lg sm:text-xl lg:text-2xl font-bold bg-sky-500 text-white hover:scale-[1.02] hover:bg-sky-600 active:scale-[0.98] transition shadow-lg shadow-sky-200 min-h-[64px] sm:min-h-[76px]">
+          <button id="yesBtn" class="rounded-2xl px-5 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 text-lg sm:text-xl lg:text-2xl font-bold bg-sky-500 text-white hover:scale-[1.02] hover:bg-sky-600 active:scale-[0.98] transition shadow-lg shadow-sky-200 min-h-[64px] sm:min-h-[76px]">
             Yes 💙
           </button>
 
-          <button id="noBtn"
-            class="rounded-2xl px-5 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 text-lg sm:text-xl lg:text-2xl font-bold bg-sky-100 text-sky-700 hover:scale-[1.02] hover:bg-sky-200 active:scale-[0.98] transition shadow-lg shadow-sky-100 min-h-[64px] sm:min-h-[76px]">
+          <button id="noBtn" class="rounded-2xl px-5 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 text-lg sm:text-xl lg:text-2xl font-bold bg-sky-100 text-sky-700 hover:scale-[1.02] hover:bg-sky-200 active:scale-[0.98] transition shadow-lg shadow-sky-100 min-h-[64px] sm:min-h-[76px]">
             No 😅
           </button>
         </div>
 
-        <div id="messageBox"
-          class="hidden mt-6 sm:mt-8 rounded-2xl px-4 py-4 sm:px-5 text-sm md:text-base font-medium max-w-3xl mx-auto">
+        <div id="messageBox" class="hidden mt-6 sm:mt-8 rounded-2xl px-4 py-4 sm:px-5 text-sm md:text-base font-medium max-w-3xl mx-auto">
         </div>
-      
 
-        <div id="thankYouModal"
-          class="hidden fixed inset-0 z-[9999] bg-slate-900/25 backdrop-blur-sm items-center justify-center p-4 sm:p-6">
-          <div
-            class="relative w-full max-w-sm sm:max-w-md rounded-[2rem] border border-sky-200 bg-white shadow-2xl p-6 sm:p-8 text-center overflow-hidden">
+        <div id="thankYouModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/25 backdrop-blur-sm items-center justify-center p-4 sm:p-6">
+          <div class="relative w-full max-w-sm sm:max-w-md rounded-[2rem] border border-sky-200 bg-white shadow-2xl p-6 sm:p-8 text-center overflow-hidden">
             <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-sky-300 via-blue-200 to-cyan-200"></div>
-            <div
-              class="absolute -top-10 left-1/2 -translate-x-1/2 h-24 w-24 rounded-full bg-sky-100 blur-2xl opacity-70">
-            </div>
+            <div class="absolute -top-10 left-1/2 -translate-x-1/2 h-24 w-24 rounded-full bg-sky-100 blur-2xl opacity-70"></div>
 
-            <div
-              class="relative mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-sky-100 bg-sky-50 text-3xl shadow-lg shadow-sky-100 text-sky-500">
+            <div class="relative mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-sky-100 bg-sky-50 text-3xl shadow-lg shadow-sky-100 text-sky-500">
               💙
             </div>
 
@@ -160,8 +247,7 @@
               Thank You!
             </h2>
             <p id="modalText" class="mt-3 text-slate-600 leading-relaxed text-base sm:text-lg"></p>
-            <div id="modalTextButton"
-              class="mt-5 inline-flex items-center justify-center rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sky-500 font-semibold shadow-sm">
+            <div id="modalTextButton" class="mt-5 inline-flex items-center justify-center rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sky-500 font-semibold shadow-sm">
               See You Soon ✨
             </div>
           </div>
@@ -265,10 +351,11 @@
       messageBox.classList.remove("hidden");
     }
 
-    function showThankYouModal(title, text) {
+    function showThankYouModal(title, text, showButton = true) {
       modalTitle.textContent = title;
       modalText.textContent = text;
-      
+      modalTextButton.classList.toggle("hidden", !showButton);
+
       thankYouModal.classList.remove("hidden");
       thankYouModal.classList.add("flex");
       messageBox.classList.add("hidden");
@@ -337,6 +424,7 @@
         });
       }, 200);
     }
+
     async function initParticles() {
       await tsParticles.load({
         id: "tsparticles",
@@ -464,7 +552,6 @@
 
       try {
         setButtonsDisabled(true);
-        // showMessage("info", "Saving your answer...");
 
         const allowedSnapshot = await get(
           child(ref(database), `allowedNames/${normalizedPersonName}`),
@@ -512,12 +599,13 @@
           showThankYouModal(
             "Thank You!",
             `for saying yes.`,
+            true,
           );
         } else {
           showThankYouModal(
-            modalTextButton.classList.add("hidden"),
             "Thank You!",
             `for answering, ${personName}.`,
+            false,
           );
         }
       } catch (error) {
@@ -540,6 +628,7 @@
     yesBtn.addEventListener("click", () => submitAnswer("Yes"));
     noBtn.addEventListener("click", () => submitAnswer("No"));
   </script>
+
   <script>
     const images = [
       "thirdy_head_1.png?v=1.0.1",
@@ -553,6 +642,108 @@
     let current = 0;
     const img = document.getElementById("profileImage");
 
+    function updatePreloaderProgress(percent, text) {
+      const bar = document.getElementById("preloaderBar");
+      const percentText = document.getElementById("preloaderPercent");
+      const loaderText = document.getElementById("preloaderText");
+      const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
+
+      if (bar) bar.style.width = `${safePercent}%`;
+      if (percentText) percentText.textContent = `${safePercent}%`;
+      if (loaderText && text) loaderText.textContent = text;
+    }
+
+    function preloadImage(src) {
+      return new Promise((resolve) => {
+        const image = new Image();
+        image.onload = resolve;
+        image.onerror = resolve;
+        image.src = src;
+      });
+    }
+
+    function preloadAudio(audioElement) {
+      return new Promise((resolve) => {
+        if (!audioElement) {
+          resolve();
+          return;
+        }
+
+        if (audioElement.readyState >= 1) {
+          resolve();
+          return;
+        }
+
+        const done = () => resolve();
+        audioElement.addEventListener("loadedmetadata", done, { once: true });
+        audioElement.addEventListener("canplaythrough", done, { once: true });
+        audioElement.addEventListener("error", done, { once: true });
+        audioElement.load();
+      });
+    }
+
+    function waitForWindowLoad() {
+      return new Promise((resolve) => {
+        if (document.readyState === "complete") {
+          resolve();
+          return;
+        }
+
+        window.addEventListener("load", resolve, { once: true });
+      });
+    }
+
+    function delay(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async function runPlayfulPreloader() {
+      const preloader = document.getElementById("preloader");
+      const bgMusic = document.getElementById("bgMusic");
+      const answerAudio = document.getElementById("answerAudio");
+
+      if (!preloader) return;
+
+      const assets = [
+        ...images.map((src) => ({ type: "image", src })),
+        { type: "image", src: "bg.jpg?v=1.0.1" },
+        { type: "audio", element: bgMusic },
+        { type: "audio", element: answerAudio },
+      ];
+
+      let loaded = 0;
+      updatePreloaderProgress(5, "Loading Thirdy's cute photos...");
+
+      const assetPromises = assets.map(async (asset) => {
+        if (asset.type === "image") {
+          await preloadImage(asset.src);
+        } else if (asset.type === "audio") {
+          await preloadAudio(asset.element);
+        }
+
+        loaded += 1;
+        const progress = 5 + (loaded / assets.length) * 85;
+        updatePreloaderProgress(progress, "Almost ready... adding little blue sparkles ✨");
+      });
+
+      await Promise.race([
+        Promise.all([waitForWindowLoad(), ...assetPromises]),
+        delay(5500),
+      ]);
+
+      updatePreloaderProgress(100, "Ready! Opening Thirdy's invitation 💙");
+      await delay(500);
+      preloader.classList.add("preloader-hide");
+      document.body.classList.remove("overflow-hidden");
+
+      setTimeout(() => {
+        preloader.remove();
+      }, 700);
+    }
+
+    document.body.classList.add("overflow-hidden");
+    runPlayfulPreloader();
+
     setInterval(() => {
       img.classList.add("opacity-0");
 
@@ -560,8 +751,8 @@
         current = (current + 1) % images.length;
         img.src = images[current];
         img.classList.remove("opacity-0");
-      }, 100); // matches duration-500
-    }, 800); // change every 3 seconds
+      }, 100);
+    }, 800);
   </script>
 </body>
 
