@@ -5,7 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Be My God Parents?</title>
-<link rel="icon" type="image/png" href="icon.jpg">
+  <link rel="icon" type="image/png" href="icon.jpg">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
@@ -21,9 +22,10 @@
       },
     };
   </script>
+
   <style>
     .bg {
-      background-image: url("bg.jpg");
+      background-image: url("bg.jpg?v=1.0.1");
       background-size: cover;
       background-position: center;
     }
@@ -37,7 +39,6 @@
     }
 
     @keyframes fade1 {
-
       0%,
       45% {
         opacity: 1;
@@ -54,7 +55,6 @@
     }
 
     @keyframes fade2 {
-
       0%,
       45% {
         opacity: 0;
@@ -71,7 +71,8 @@
     }
 
     @keyframes babyBounce {
-      0%, 100% {
+      0%,
+      100% {
         transform: translateY(0) rotate(-3deg);
       }
 
@@ -103,7 +104,8 @@
     }
 
     @keyframes progressGlow {
-      0%, 100% {
+      0%,
+      100% {
         opacity: 0.45;
       }
 
@@ -147,7 +149,7 @@
 
 <body class="min-h-screen overflow-x-hidden bg-sky-50 text-slate-800">
   <div id="preloader" class="fixed inset-0 z-[10000] flex items-center justify-center bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 px-5">
-    <div class="relative w-full max-w-sm rounded-[2rem] border border-sky-100 bg-white/80 p-7 text-center shadow-2xl shadow-sky-100 backdrop-blur-md sm:p-8">
+    <div class="relative w-full max-w-sm rounded border border-sky-100 bg-white/80 p-7 text-center shadow-2xl shadow-sky-100 backdrop-blur-md sm:p-8">
       <div class="absolute inset-x-0 top-0 h-1.5 rounded-t-[2rem] bg-gradient-to-r from-sky-300 via-blue-200 to-cyan-200"></div>
 
       <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
@@ -161,16 +163,20 @@
         <div class="baby-bounce relative text-5xl">👶</div>
       </div>
 
-      <p class="text-xs font-black uppercase tracking-[0.32em] text-sky-400">Please Wait</p>
-      <h2 class="mt-3 text-3xl font-black text-slate-900 sm:text-4xl">Preparing the surprise</h2>
+      <p class="text-xs font-black uppercase tracking-[0.32em] text-sky-400">Tiny Surprise</p>
+      <h2 class="mt-3 text-3xl font-black text-slate-900 sm:text-4xl">Thirdy has something to ask you</h2>
       <p id="preloaderText" class="mt-3 text-sm font-medium leading-relaxed text-slate-600 sm:text-base">
-        Loading Thirdy's cute photos, music, and little blue sparkles...
+        Gathering smiles, sparkles, and a very special question...
       </p>
 
       <div class="mt-6 h-3 overflow-hidden rounded-full bg-sky-100">
         <div id="preloaderBar" class="h-full w-[8%] rounded-full bg-gradient-to-r from-sky-400 to-cyan-300 transition-all duration-300 progress-glow"></div>
       </div>
       <p id="preloaderPercent" class="mt-3 text-sm font-bold text-sky-500">0%</p>
+
+      <button id="openInvitationBtn" type="button" disabled class="mt-5 hidden w-full rounded-full bg-sky-500 px-5 py-4 text-base font-black text-white shadow-lg shadow-sky-200 transition hover:bg-sky-600 active:scale-95">
+        Start the Surprise 💙
+      </button>
     </div>
   </div>
 
@@ -264,6 +270,10 @@
     <source src="Thirdy_TY.MP3" type="audio/mpeg" />
   </audio>
 
+  <script>
+    window.invitationAnswerStatus = "checking";
+  </script>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
@@ -305,6 +315,26 @@
     let isAllowedName = false;
     let hasAlreadyAnswered = false;
 
+    window.playMusicAfterClick = function playMusicAfterClick() {
+      if (
+        !bgMusic ||
+        hasTriedAutoPlay ||
+        hasAlreadyAnswered ||
+        window.invitationAnswerStatus !== "not_answered"
+      ) {
+        return Promise.resolve(false);
+      }
+
+      hasTriedAutoPlay = true;
+
+      bgMusic.volume = 1;
+      bgMusic.currentTime = 0;
+
+      return bgMusic.play()
+        .then(() => true)
+        .catch(() => false);
+    };
+
     function getNameFromUrl() {
       const params = new URLSearchParams(window.location.search);
       const rawName = params.get("name");
@@ -334,6 +364,15 @@
       } else {
         yesBtn.classList.remove("opacity-60", "cursor-not-allowed");
         noBtn.classList.remove("opacity-60", "cursor-not-allowed");
+      }
+    }
+
+    function hideOpenInvitationButton() {
+      const openBtn = document.getElementById("openInvitationBtn");
+
+      if (openBtn) {
+        openBtn.classList.add("hidden");
+        openBtn.disabled = true;
       }
     }
 
@@ -367,17 +406,6 @@
         audio.pause();
         audio.currentTime = 0;
       });
-    }
-
-    function tryPlayMusic() {
-      if (!bgMusic || hasTriedAutoPlay || hasAlreadyAnswered) return;
-      hasTriedAutoPlay = true;
-
-      bgMusic.volume = 1;
-      bgMusic.currentTime = 0;
-      // bgMusic.play().catch(() => {
-      //   showMessage("info", "Autoplay was blocked by the browser.");
-      // });
     }
 
     function playAnswerAudio() {
@@ -469,12 +497,19 @@
     const personName = getNameFromUrl();
     const normalizedPersonName = normalizeName(personName);
 
+    hideOpenInvitationButton();
+
     if (personName) {
       questionTitle.innerHTML = `Hi ${escapeHtml(personName.toUpperCase())},<br> can you be my <span class="text-sky-500"><br>God Parents</span>?`;
     }
 
     async function checkAllowedName() {
+      window.invitationAnswerStatus = "checking";
+      hideOpenInvitationButton();
+
       if (!personName) {
+        window.invitationAnswerStatus = "denied";
+
         setButtonsDisabled(true);
         showMessage(
           "error",
@@ -489,6 +524,8 @@
         );
 
         if (!allowedSnapshot.exists() || allowedSnapshot.val() !== true) {
+          window.invitationAnswerStatus = "denied";
+
           setButtonsDisabled(true);
           showMessage(
             "error",
@@ -505,8 +542,16 @@
 
         if (existingAnswerSnapshot.exists()) {
           hasAlreadyAnswered = true;
+          window.invitationAnswerStatus = "answered";
+
           stopAllAudio();
           setButtonsDisabled(true);
+          hideOpenInvitationButton();
+
+          if (typeof window.removePreloaderForAnswered === "function") {
+            window.removePreloaderForAnswered();
+          }
+
           showThankYouModal(
             "Thank You!",
             `Your answer has already been recorded.`,
@@ -515,16 +560,23 @@
         }
 
         hasAlreadyAnswered = false;
+        window.invitationAnswerStatus = "not_answered";
         setButtonsDisabled(false);
       } catch (error) {
+        window.invitationAnswerStatus = "denied";
+
         console.error("checkAllowedName error:", error);
         setButtonsDisabled(true);
+        hideOpenInvitationButton();
         showMessage("error", `checkAllowedName: ${error.message}`);
       }
     }
 
     async function submitAnswer(answer) {
       if (!personName) {
+        window.invitationAnswerStatus = "denied";
+        hideOpenInvitationButton();
+
         showMessage(
           "error",
           "Access denied. You are not authorized to view this page.",
@@ -533,6 +585,9 @@
       }
 
       if (!isAllowedName) {
+        window.invitationAnswerStatus = "denied";
+        hideOpenInvitationButton();
+
         showMessage(
           "error",
           "This name is not allowed to answer on this page.",
@@ -541,8 +596,12 @@
       }
 
       if (hasAlreadyAnswered) {
+        window.invitationAnswerStatus = "answered";
+
         stopAllAudio();
         setButtonsDisabled(true);
+        hideOpenInvitationButton();
+
         showThankYouModal(
           "Thank You!",
           `Thank you, ${personName}. Your answer has already been recorded.`,
@@ -561,7 +620,11 @@
         );
 
         if (!allowedSnapshot.exists() || allowedSnapshot.val() !== true) {
+          window.invitationAnswerStatus = "denied";
+
           setButtonsDisabled(true);
+          hideOpenInvitationButton();
+
           showMessage(
             "error",
             "This name is not allowed to answer on this page.",
@@ -571,8 +634,12 @@
 
         if (existingAnswerSnapshot.exists()) {
           hasAlreadyAnswered = true;
+          window.invitationAnswerStatus = "answered";
+
           stopAllAudio();
           setButtonsDisabled(true);
+          hideOpenInvitationButton();
+
           showThankYouModal(
             "Thank You!",
             `Thank you, ${personName}. Your answer has already been recorded.`,
@@ -592,6 +659,8 @@
         });
 
         hasAlreadyAnswered = true;
+        window.invitationAnswerStatus = "answered";
+        hideOpenInvitationButton();
 
         if (answer === "Yes") {
           playAnswerAudio();
@@ -618,12 +687,6 @@
     setButtonsDisabled(true);
     initParticles();
     checkAllowedName();
-
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        tryPlayMusic();
-      }, 2000);
-    });
 
     yesBtn.addEventListener("click", () => submitAnswer("Yes"));
     noBtn.addEventListener("click", () => submitAnswer("No"));
@@ -697,22 +760,91 @@
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
+    function hideOpenInvitationButton() {
+      const openBtn = document.getElementById("openInvitationBtn");
+
+      if (openBtn) {
+        openBtn.classList.add("hidden");
+        openBtn.disabled = true;
+      }
+    }
+
+    function removePreloaderNow() {
+      const preloader = document.getElementById("preloader");
+
+      hideOpenInvitationButton();
+      document.body.classList.remove("overflow-hidden");
+
+      if (preloader) {
+        preloader.remove();
+      }
+    }
+
+    function hidePreloader() {
+      const preloader = document.getElementById("preloader");
+      if (!preloader) return;
+
+      preloader.classList.add("preloader-hide");
+      document.body.classList.remove("overflow-hidden");
+
+      setTimeout(() => {
+        preloader.remove();
+      }, 700);
+    }
+
+    window.removePreloaderForAnswered = function removePreloaderForAnswered() {
+      window.invitationAnswerStatus = "answered";
+      removePreloaderNow();
+    };
+
+    async function waitForAnswerStatus() {
+      while (window.invitationAnswerStatus === "checking") {
+        await delay(100);
+      }
+
+      return window.invitationAnswerStatus;
+    }
+
+    async function openInvitationWithMusic() {
+      const openBtn = document.getElementById("openInvitationBtn");
+
+      if (window.invitationAnswerStatus !== "not_answered") {
+        removePreloaderNow();
+        return;
+      }
+
+      if (openBtn) {
+        openBtn.disabled = true;
+        openBtn.textContent = "Here we go... 💙";
+      }
+
+      if (typeof window.playMusicAfterClick === "function") {
+        await window.playMusicAfterClick();
+      }
+
+      hidePreloader();
+    }
+
     async function runPlayfulPreloader() {
       const preloader = document.getElementById("preloader");
+      const openBtn = document.getElementById("openInvitationBtn");
       const bgMusic = document.getElementById("bgMusic");
       const answerAudio = document.getElementById("answerAudio");
 
       if (!preloader) return;
 
+      hideOpenInvitationButton();
+
       const assets = [
         ...images.map((src) => ({ type: "image", src })),
         { type: "image", src: "bg.jpg?v=1.0.1" },
+        { type: "image", src: "icon.jpg" },
         { type: "audio", element: bgMusic },
         { type: "audio", element: answerAudio },
       ];
 
       let loaded = 0;
-      updatePreloaderProgress(5, "Loading Thirdy's cute photos...");
+      updatePreloaderProgress(5, "Loading Thirdy's cutest smiles...");
 
       const assetPromises = assets.map(async (asset) => {
         if (asset.type === "image") {
@@ -723,7 +855,7 @@
 
         loaded += 1;
         const progress = 5 + (loaded / assets.length) * 85;
-        updatePreloaderProgress(progress, "Almost ready... adding little blue sparkles ✨");
+        updatePreloaderProgress(progress, "Almost there... sprinkling a little blue magic ✨");
       });
 
       await Promise.race([
@@ -731,20 +863,37 @@
         delay(5500),
       ]);
 
-      updatePreloaderProgress(100, "Ready! Opening Thirdy's invitation 💙");
-      await delay(500);
-      preloader.classList.add("preloader-hide");
-      document.body.classList.remove("overflow-hidden");
+      const answerStatus = await waitForAnswerStatus();
 
-      setTimeout(() => {
-        preloader.remove();
-      }, 700);
+      if (answerStatus !== "not_answered") {
+        removePreloaderNow();
+        return;
+      }
+
+      updatePreloaderProgress(100, "A little surprise is waiting for you... press the button to begin 💙");
+      await delay(300);
+
+      if (window.invitationAnswerStatus !== "not_answered") {
+        removePreloaderNow();
+        return;
+      }
+
+      if (openBtn) {
+        openBtn.classList.remove("hidden");
+        openBtn.disabled = false;
+        openBtn.addEventListener("click", openInvitationWithMusic, { once: true });
+      } else {
+        hidePreloader();
+      }
     }
 
     document.body.classList.add("overflow-hidden");
+    hideOpenInvitationButton();
     runPlayfulPreloader();
 
     setInterval(() => {
+      if (!img) return;
+
       img.classList.add("opacity-0");
 
       setTimeout(() => {
