@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,17 +13,66 @@
       theme: {
         extend: {
           boxShadow: {
-            soft: '0 20px 60px rgba(14, 30, 58, 0.10)',
-            card: '0 14px 40px rgba(59, 130, 246, 0.10)'
-          }
-        }
-      }
+            soft: "0 20px 60px rgba(14, 30, 58, 0.10)",
+            card: "0 14px 40px rgba(59, 130, 246, 0.10)",
+          },
+        },
+      },
     };
   </script>
+  <style>
+    .bg {
+      background-image: url("bg.jpg");
+      background-size: cover;
+    }
+
+    .animate-fade1 {
+      animation: fade1 1s infinite;
+    }
+
+    .animate-fade2 {
+      animation: fade2 1s infinite;
+    }
+
+    @keyframes fade1 {
+
+      0%,
+      45% {
+        opacity: 1;
+      }
+
+      50%,
+      95% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fade2 {
+
+      0%,
+      45% {
+        opacity: 0;
+      }
+
+      50%,
+      95% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
+
 <body class="min-h-screen overflow-x-hidden bg-sky-50 text-slate-800">
   <div id="tsparticles" class="fixed inset-0 -z-20"></div>
-  <div class="fixed inset-0 -z-10 bg-[linear-gradient(180deg,_#f8fbff_0%,_#e0f2fe_50%,_#f0f9ff_100%)]"></div>
+  <div class="bg fixed inset-0 -z-10"></div>
 
   <div class="fixed inset-0 pointer-events-none opacity-90">
     <div class="absolute -top-16 -left-10 h-56 w-56 rounded-full bg-sky-200/70 blur-3xl"></div>
@@ -31,77 +81,92 @@
   </div>
 
   <main class="relative min-h-screen flex items-center justify-center px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
-    <section class="w-full max-w-5xl rounded-[2rem] lg:rounded-[2.5rem] border border-sky-100 bg-white shadow-soft overflow-hidden">
-      <div class="relative px-5 pt-8 pb-7 sm:px-8 sm:pt-10 sm:pb-8 md:px-12 md:pt-12 md:pb-10 lg:px-16 lg:pt-14 lg:pb-12">
+    <section
+      class="w-full max-w-5xl rounded-[2rem] lg:rounded-[2.5rem] border border-sky-100 bg-white/50 backdrop-blur-md shadow-soft overflow-hidden">
+      <div
+        class="relative px-5 pt-8 pb-7 sm:px-8 sm:pt-10 sm:pb-8 md:px-12 md:pt-12 md:pb-10 lg:px-16 lg:pt-14 lg:pb-12">
         <div class="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-sky-300 via-blue-200 to-cyan-200"></div>
 
-        <div class="flex items-center justify-center gap-3 sm:gap-4 text-sky-500 mb-4 sm:mb-5">
+        <div class="flex items-center justify-center gap-3 sm:gap-4 text-sky-500 mb-4 sm:mb-5 text-center">
           <span class="h-px w-12 bg-sky-200"></span>
           <span class="text-xs font-bold uppercase tracking-[0.35em]">Christening Invitation</span>
           <span class="h-px w-12 bg-sky-200"></span>
         </div>
 
         <div class="flex justify-center mb-4 sm:mb-5">
-          <div class="h-14 w-14 sm:h-16 sm:w-16 lg:h-20 lg:w-20 rounded-full bg-sky-50 shadow-lg border border-sky-100 flex items-center justify-center text-2xl sm:text-3xl lg:text-4xl text-sky-500">
-            ✨
+          <div class="h-[200px] w-[200px] rounded-full bg-sky-50 shadow-lg border border-sky-100 overflow-hidden">
+            <img id="profileImage" src="thirdy_head.png" alt="Profile"
+              class="w-full h-full object-cover transition-opacity duration-500">
           </div>
         </div>
 
-        <h1 id="questionTitle" class="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 leading-tight">
-          Can you be my <span class="text-sky-500">God Parents</span>?
+        <h1 id="questionTitle"
+          class="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 leading-tight">
+          Can you be my <span class="text-sky-500"><br />God Parents</span>?
         </h1>
 
-        <p class="mt-4 text-center text-slate-600 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-3xl mx-auto">
-          As one of Mom and Dad's favorite people, your presence in their lives has always been a blessing.
+        <p
+          class="mt-4 text-center text-slate-600 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-3xl mx-auto">
+          As one of Mom and Dad's favorite people, <br />your presence in
+          their lives has always been a blessing.
         </p>
 
-        <div class="mt-5 max-w-3xl mx-auto rounded-3xl border border-sky-100 bg-sky-50/80 px-5 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7 text-center text-slate-600 text-sm sm:text-base md:text-lg leading-relaxed space-y-3 shadow-sm">
+        <div
+          class="mt-5 max-w-3xl mx-auto rounded-3xl border border-sky-100 bg-sky-50/80 px-5 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7 text-center text-slate-600 text-sm sm:text-base md:text-lg leading-relaxed space-y-3 shadow-sm">
           <p>
-            If you are willing to accept, we'll be delighted to have you play a special role in my Christening.
+            If you are willing to accept, <br />
+            we'll be delighted to have you play a special role in my
+            Christening.
           </p>
-          <p>
-            Your wisdom and guidance will surely enrich my journey.
-          </p>
+          <p>Your wisdom and guidance will surely enrich my journey.</p>
         </div>
 
         <div class="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-3xl mx-auto">
-          <button
-            id="yesBtn"
-            class="rounded-2xl px-5 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 text-lg sm:text-xl lg:text-2xl font-bold bg-sky-500 text-white hover:scale-[1.02] hover:bg-sky-600 active:scale-[0.98] transition shadow-lg shadow-sky-200 min-h-[64px] sm:min-h-[76px]"
-          >
+          <button id="yesBtn"
+            class="rounded-2xl px-5 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 text-lg sm:text-xl lg:text-2xl font-bold bg-sky-500 text-white hover:scale-[1.02] hover:bg-sky-600 active:scale-[0.98] transition shadow-lg shadow-sky-200 min-h-[64px] sm:min-h-[76px]">
             Yes 💙
           </button>
 
-          <button
-            id="noBtn"
-            class="rounded-2xl px-5 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 text-lg sm:text-xl lg:text-2xl font-bold bg-sky-100 text-sky-700 hover:scale-[1.02] hover:bg-sky-200 active:scale-[0.98] transition shadow-lg shadow-sky-100 min-h-[64px] sm:min-h-[76px]"
-          >
+          <button id="noBtn"
+            class="rounded-2xl px-5 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 text-lg sm:text-xl lg:text-2xl font-bold bg-sky-100 text-sky-700 hover:scale-[1.02] hover:bg-sky-200 active:scale-[0.98] transition shadow-lg shadow-sky-100 min-h-[64px] sm:min-h-[76px]">
             No 😅
           </button>
         </div>
 
-        <div id="messageBox" class="hidden mt-6 sm:mt-8 rounded-2xl px-4 py-4 sm:px-5 text-sm md:text-base font-medium max-w-3xl mx-auto"></div>
-
+        <div id="messageBox"
+          class="hidden mt-6 sm:mt-8 rounded-2xl px-4 py-4 sm:px-5 text-sm md:text-base font-medium max-w-3xl mx-auto">
+        </div>
+        <!-- 
         <div class="mt-8 sm:mt-10 rounded-3xl border border-sky-100 bg-white p-4 sm:p-5 lg:p-6 text-left text-xs sm:text-sm lg:text-base text-slate-600 space-y-3 max-w-3xl mx-auto shadow-sm">
           <p class="font-semibold text-slate-900">Personalized links</p>
           <p><code class="break-all text-sky-500">https://yourusername.github.io/your-repo/?name=LJ</code></p>
           <p><code class="break-all text-sky-500">https://yourusername.github.io/your-repo/?name=Mark</code></p>
           <p><span class="font-semibold text-slate-900">Stored online in Firebase:</span> <code class="text-sky-500">responses</code></p>
-        </div>
+        </div> -->
 
-    <div id="thankYouModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/25 backdrop-blur-sm items-center justify-center p-4 sm:p-6">
-          <div class="relative w-full max-w-sm sm:max-w-md rounded-[2rem] border border-sky-200 bg-white shadow-2xl p-6 sm:p-8 text-center overflow-hidden">
+        <div id="thankYouModal"
+          class="hidden fixed inset-0 z-[9999] bg-slate-900/25 backdrop-blur-sm items-center justify-center p-4 sm:p-6">
+          <div
+            class="relative w-full max-w-sm sm:max-w-md rounded-[2rem] border border-sky-200 bg-white shadow-2xl p-6 sm:p-8 text-center overflow-hidden">
             <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-sky-300 via-blue-200 to-cyan-200"></div>
-            <div class="absolute -top-10 left-1/2 -translate-x-1/2 h-24 w-24 rounded-full bg-sky-100 blur-2xl opacity-70"></div>
+            <div
+              class="absolute -top-10 left-1/2 -translate-x-1/2 h-24 w-24 rounded-full bg-sky-100 blur-2xl opacity-70">
+            </div>
 
-            <div class="relative mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-sky-100 bg-sky-50 text-3xl shadow-lg shadow-sky-100 text-sky-500">
+            <div
+              class="relative mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-sky-100 bg-sky-50 text-3xl shadow-lg shadow-sky-100 text-sky-500">
               💙
             </div>
 
-            <p class="text-xs font-bold uppercase tracking-[0.28em] text-sky-400">Message Received</p>
-            <h2 id="modalTitle" class="mt-3 text-3xl sm:text-4xl font-black tracking-tight text-slate-900">Thank You!</h2>
+            <p class="text-xs font-bold uppercase tracking-[0.28em] text-sky-400">
+              Message Received
+            </p>
+            <h2 id="modalTitle" class="mt-3 text-3xl sm:text-4xl font-black tracking-tight text-slate-900">
+              Thank You!
+            </h2>
             <p id="modalText" class="mt-3 text-slate-600 leading-relaxed text-base sm:text-lg"></p>
-            <div class="mt-5 inline-flex items-center justify-center rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sky-500 font-semibold shadow-sm">
+            <div id="modalTextButton"
+              class="mt-5 inline-flex items-center justify-center rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sky-500 font-semibold shadow-sm">
               See You Soon ✨
             </div>
           </div>
@@ -126,18 +191,19 @@
       set,
       get,
       child,
-      serverTimestamp
+      serverTimestamp,
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB9XPhWKuL8ht9jIke5j_wYU8P-7GrE0Ro",
       authDomain: "godparents-d142a.firebaseapp.com",
-      databaseURL: "https://godparents-d142a-default-rtdb.asia-southeast1.firebasedatabase.app",
+      databaseURL:
+        "https://godparents-d142a-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "godparents-d142a",
       storageBucket: "godparents-d142a.firebasestorage.app",
       messagingSenderId: "726080613575",
       appId: "1:726080613575:web:74c3f6d2786191b71822e2",
-      measurementId: "G-R36Z19JRMC"
+      measurementId: "G-R36Z19JRMC",
     };
 
     const app = initializeApp(firebaseConfig);
@@ -149,6 +215,7 @@
     const questionTitle = document.getElementById("questionTitle");
     const thankYouModal = document.getElementById("thankYouModal");
     const modalTitle = document.getElementById("modalTitle");
+    const modalTextButton = document.getElementById("modalTextButton");
     const modalText = document.getElementById("modalText");
     const bgMusic = document.getElementById("bgMusic");
     const answerAudio = document.getElementById("answerAudio");
@@ -191,9 +258,11 @@
 
     function showMessage(type, text) {
       const classes = {
-        success: "mt-6 sm:mt-8 rounded-2xl px-4 py-4 sm:px-5 text-sm md:text-base font-medium max-w-3xl mx-auto bg-sky-50 text-sky-700 border border-sky-200",
-        error: "mt-6 sm:mt-8 rounded-2xl px-4 py-4 sm:px-5 text-sm md:text-base font-medium max-w-3xl mx-auto bg-blue-50 text-blue-700 border border-blue-200",
-        info: "mt-6 sm:mt-8 rounded-2xl px-4 py-4 sm:px-5 text-sm md:text-base font-medium max-w-3xl mx-auto bg-sky-50 text-sky-700 border border-sky-200"
+        success:
+          "mt-6 sm:mt-8 rounded-2xl px-4 py-4 sm:px-5 text-sm md:text-base font-medium max-w-3xl mx-auto bg-sky-50 text-sky-700 border border-sky-200",
+        error:
+          "mt-6 sm:mt-8 rounded-2xl px-4 py-4 sm:px-5 text-sm md:text-base font-medium max-w-3xl mx-auto bg-blue-50 text-blue-700 border border-blue-200",
+        info: "mt-6 sm:mt-8 rounded-2xl px-4 py-4 sm:px-5 text-sm md:text-base font-medium max-w-3xl mx-auto bg-sky-50 text-sky-700 border border-sky-200",
       };
 
       messageBox.className = classes[type] || classes.info;
@@ -204,6 +273,7 @@
     function showThankYouModal(title, text) {
       modalTitle.textContent = title;
       modalText.textContent = text;
+      
       thankYouModal.classList.remove("hidden");
       thankYouModal.classList.add("flex");
       messageBox.classList.add("hidden");
@@ -223,9 +293,9 @@
 
       bgMusic.volume = 1;
       bgMusic.currentTime = 0;
-      bgMusic.play().catch(() => {
-        showMessage("info", "Autoplay was blocked by the browser.");
-      });
+      // bgMusic.play().catch(() => {
+      //   showMessage("info", "Autoplay was blocked by the browser.");
+      // });
     }
 
     function playAnswerAudio() {
@@ -233,45 +303,45 @@
       stopAllAudio();
       answerAudio.volume = 1;
       answerAudio.currentTime = 0;
-      answerAudio.play().catch(() => {});
+      answerAudio.play().catch(() => { });
     }
 
     function launchConfetti() {
-  if (typeof confetti !== "function") return;
+      if (typeof confetti !== "function") return;
 
-  const duration = 2400;
-  const animationEnd = Date.now() + duration;
-  const defaults = {
-    startVelocity: 30,
-    spread: 360,
-    ticks: 95,
-    zIndex: 9999,
-    colors: ["#7dd3fc", "#93c5fd", "#bae6fd", "#ffffff"]
-  };
+      const duration = 2400;
+      const animationEnd = Date.now() + duration;
+      const defaults = {
+        startVelocity: 30,
+        spread: 360,
+        ticks: 95,
+        zIndex: 9999,
+        colors: ["#7dd3fc", "#93c5fd", "#bae6fd", "#ffffff"],
+      };
 
-  const interval = setInterval(() => {
-    const timeLeft = animationEnd - Date.now();
+      const interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
 
-    if (timeLeft <= 0) {
-      clearInterval(interval);
-      return;
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          return;
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: 0.15, y: 0.25 },
+        });
+
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: 0.85, y: 0.25 },
+        });
+      }, 200);
     }
-
-    const particleCount = 50 * (timeLeft / duration);
-
-    confetti({
-      ...defaults,
-      particleCount,
-      origin: { x: 0.15, y: 0.25 }
-    });
-
-    confetti({
-      ...defaults,
-      particleCount,
-      origin: { x: 0.85, y: 0.25 }
-    });
-  }, 200);
-}
     async function initParticles() {
       await tsParticles.load({
         id: "tsparticles",
@@ -289,27 +359,27 @@
               enable: true,
               speed: 0.6,
               direction: "none",
-              outModes: { default: "out" }
+              outModes: { default: "out" },
             },
             links: {
               enable: true,
               distance: 140,
               color: "#93c5fd",
               opacity: 0.12,
-              width: 1
-            }
+              width: 1,
+            },
           },
           interactivity: {
             events: {
               onHover: { enable: true, mode: "grab" },
-              resize: { enable: true }
+              resize: { enable: true },
             },
             modes: {
-              grab: { distance: 170, links: { opacity: 0.2 } }
-            }
+              grab: { distance: 170, links: { opacity: 0.2 } },
+            },
           },
-          detectRetina: true
-        }
+          detectRetina: true,
+        },
       });
     }
 
@@ -317,34 +387,47 @@
     const normalizedPersonName = normalizeName(personName);
 
     if (personName) {
-      questionTitle.innerHTML = `${escapeHtml(personName.toUpperCase())}, can you be my <span class="text-sky-500">God Parents</span>?`;
+      questionTitle.innerHTML = `Hi ${escapeHtml(personName.toUpperCase())},<br> can you be my <span class="text-sky-500"><br>God Parents</span>?`;
     }
 
     async function checkAllowedName() {
       if (!personName) {
         setButtonsDisabled(true);
-        showMessage("error", "Missing name in the link. Please open the page using a link like ?name=LJ");
+        showMessage(
+          "error",
+          "Access denied. You are not authorized to view this page.",
+        );
         return;
       }
 
       try {
-        const allowedSnapshot = await get(child(ref(database), `allowedNames/${normalizedPersonName}`));
+        const allowedSnapshot = await get(
+          child(ref(database), `allowedNames/${normalizedPersonName}`),
+        );
 
         if (!allowedSnapshot.exists() || allowedSnapshot.val() !== true) {
           setButtonsDisabled(true);
-          showMessage("error", "This name is not allowed to answer on this page.");
+          showMessage(
+            "error",
+            "This name is not allowed to answer on this page.",
+          );
           return;
         }
 
         isAllowedName = true;
 
-        const existingAnswerSnapshot = await get(child(ref(database), `responses/${normalizedPersonName}`));
+        const existingAnswerSnapshot = await get(
+          child(ref(database), `responses/${normalizedPersonName}`),
+        );
 
         if (existingAnswerSnapshot.exists()) {
           hasAlreadyAnswered = true;
           stopAllAudio();
           setButtonsDisabled(true);
-          showThankYouModal("Thank You!", `Thank you, ${personName}. Your answer has already been recorded.`);
+          showThankYouModal(
+            "Thank You!",
+            `Your answer has already been recorded.`,
+          );
           return;
         }
 
@@ -359,32 +442,48 @@
 
     async function submitAnswer(answer) {
       if (!personName) {
-        showMessage("error", "Missing name in the link. Please open the page using a link like ?name=LJ");
+        showMessage(
+          "error",
+          "Access denied. You are not authorized to view this page.",
+        );
         return;
       }
 
       if (!isAllowedName) {
-        showMessage("error", "This name is not allowed to answer on this page.");
+        showMessage(
+          "error",
+          "This name is not allowed to answer on this page.",
+        );
         return;
       }
 
       if (hasAlreadyAnswered) {
         stopAllAudio();
         setButtonsDisabled(true);
-        showThankYouModal("Thank You!", `Thank you, ${personName}. Your answer has already been recorded.`);
+        showThankYouModal(
+          "Thank You!",
+          `Thank you, ${personName}. Your answer has already been recorded.`,
+        );
         return;
       }
 
       try {
         setButtonsDisabled(true);
-        showMessage("info", "Saving your answer...");
+        // showMessage("info", "Saving your answer...");
 
-        const allowedSnapshot = await get(child(ref(database), `allowedNames/${normalizedPersonName}`));
-        const existingAnswerSnapshot = await get(child(ref(database), `responses/${normalizedPersonName}`));
+        const allowedSnapshot = await get(
+          child(ref(database), `allowedNames/${normalizedPersonName}`),
+        );
+        const existingAnswerSnapshot = await get(
+          child(ref(database), `responses/${normalizedPersonName}`),
+        );
 
         if (!allowedSnapshot.exists() || allowedSnapshot.val() !== true) {
           setButtonsDisabled(true);
-          showMessage("error", "This name is not allowed to answer on this page.");
+          showMessage(
+            "error",
+            "This name is not allowed to answer on this page.",
+          );
           return;
         }
 
@@ -392,7 +491,10 @@
           hasAlreadyAnswered = true;
           stopAllAudio();
           setButtonsDisabled(true);
-          showThankYouModal("Thank You!", `Thank you, ${personName}. Your answer has already been recorded.`);
+          showThankYouModal(
+            "Thank You!",
+            `Thank you, ${personName}. Your answer has already been recorded.`,
+          );
           return;
         }
 
@@ -404,18 +506,25 @@
           createdAt: new Date().toISOString(),
           serverTimestamp: serverTimestamp(),
           pageUrl: window.location.href,
-          userAgent: navigator.userAgent
+          userAgent: navigator.userAgent,
         });
 
-       hasAlreadyAnswered = true;
+        hasAlreadyAnswered = true;
 
-if (answer === "Yes") {
-  playAnswerAudio();
-  launchConfetti();
-  showThankYouModal("Thank You!", `Thank you, ${personName}, for saying yes.`);
-} else {
-  showThankYouModal("Thank You!", `Thank you for answering, ${personName}.`);
-}
+        if (answer === "Yes") {
+          playAnswerAudio();
+          launchConfetti();
+          showThankYouModal(
+            "Thank You!",
+            `for saying yes.`,
+          );
+        } else {
+          showThankYouModal(
+            modalTextButton.classList.add("hidden"),
+            "Thank You!",
+            `for answering, ${personName}.`,
+          );
+        }
       } catch (error) {
         console.error("submitAnswer error:", error);
         setButtonsDisabled(false);
@@ -436,5 +545,29 @@ if (answer === "Yes") {
     yesBtn.addEventListener("click", () => submitAnswer("Yes"));
     noBtn.addEventListener("click", () => submitAnswer("No"));
   </script>
+  <script>
+    const images = [
+      "thirdy_head_1.png",
+      "thirdy_head_2.png",
+      "thirdy_head_3.png",
+      "thirdy_head_4.png",
+      "thirdy_head_6.png",
+      "thirdy_head_5.png"
+    ];
+
+    let current = 0;
+    const img = document.getElementById("profileImage");
+
+    setInterval(() => {
+      img.classList.add("opacity-0");
+
+      setTimeout(() => {
+        current = (current + 1) % images.length;
+        img.src = images[current];
+        img.classList.remove("opacity-0");
+      }, 100); // matches duration-500
+    }, 800); // change every 3 seconds
+  </script>
 </body>
+
 </html>
