@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>God Parents Answer Results</title>
+  <link rel="icon" type="image/png" href="icon.jpg">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          boxShadow: {
+            soft: "0 20px 60px rgba(14, 30, 58, 0.10)",
+            card: "0 14px 40px rgba(59, 130, 246, 0.10)",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    .bg {
+      background-image: url("bg.jpg?v=1.0.1");
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen overflow-x-hidden bg-sky-50 text-slate-800">
+  <div class="bg fixed inset-0 -z-20"></div>
+  <div class="fixed inset-0 -z-10 bg-sky-50/70 backdrop-blur-sm"></div>
+
+  <div class="fixed inset-0 pointer-events-none opacity-90">
+    <div class="absolute -top-16 -left-10 h-56 w-56 rounded-full bg-sky-200/70 blur-3xl"></div>
+    <div class="absolute top-8 right-0 h-72 w-72 rounded-full bg-blue-100/80 blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-cyan-100/80 blur-3xl"></div>
+  </div>
+
+  <main class="relative min-h-screen px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
+    <section class="mx-auto w-full max-w-6xl overflow-hidden rounded-[2rem] border border-sky-100 bg-white/70 shadow-soft backdrop-blur-md lg:rounded-[2.5rem]">
+      <div class="relative px-5 py-8 sm:px-8 sm:py-10 md:px-12 lg:px-14">
+        <div class="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-sky-300 via-blue-200 to-cyan-200"></div>
+
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p class="text-xs font-black uppercase tracking-[0.32em] text-sky-400">Christening Invitation</p>
+            <h1 class="mt-2 text-3xl font-black text-slate-900 sm:text-4xl lg:text-5xl">Answer Results</h1>
+            <p class="mt-3 max-w-2xl text-sm font-medium leading-relaxed text-slate-600 sm:text-base">
+              View all recorded answers for Thirdy's godparents invitation.
+            </p>
+          </div>
+
+          <button id="refreshBtn" type="button" class="rounded-full bg-sky-500 px-6 py-3 text-sm font-black text-white shadow-lg shadow-sky-200 transition hover:bg-sky-600 active:scale-95">
+            Refresh Results
+          </button>
+        </div>
+
+        <div id="statusBox" class="mt-6 hidden rounded-2xl border px-4 py-4 text-sm font-bold"></div>
+
+        <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div class="rounded-3xl border border-sky-100 bg-white/80 p-6 text-center shadow-card">
+            <p class="text-xs font-black uppercase tracking-[0.25em] text-sky-400">Total</p>
+            <p id="totalCount" class="mt-3 text-5xl font-black text-slate-900">0</p>
+          </div>
+
+          <div class="rounded-3xl border border-sky-100 bg-white/80 p-6 text-center shadow-card">
+            <p class="text-xs font-black uppercase tracking-[0.25em] text-green-500">Yes</p>
+            <p id="yesCount" class="mt-3 text-5xl font-black text-green-600">0</p>
+          </div>
+
+          <div class="rounded-3xl border border-sky-100 bg-white/80 p-6 text-center shadow-card">
+            <p class="text-xs font-black uppercase tracking-[0.25em] text-red-500">No</p>
+            <p id="noCount" class="mt-3 text-5xl font-black text-red-600">0</p>
+          </div>
+        </div>
+
+        <div class="mt-8 overflow-hidden rounded-3xl border border-sky-100 bg-white/80 shadow-card">
+          <div class="flex flex-col gap-3 border-b border-sky-100 bg-sky-50/80 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 class="text-xl font-black text-slate-900">Responses</h2>
+              <p id="lastUpdated" class="mt-1 text-sm font-medium text-slate-500">Not loaded yet.</p>
+            </div>
+
+            <input id="searchInput" type="search" placeholder="Search name or answer..." class="w-full rounded-full border border-sky-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-sky-300 focus:ring-4 focus:ring-sky-100 sm:max-w-xs" />
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-sky-100 text-left text-sm">
+              <thead class="bg-white/70 text-xs uppercase tracking-[0.18em] text-sky-500">
+                <tr>
+                  <th class="px-5 py-4 font-black">Name</th>
+                  <th class="px-5 py-4 font-black">Answer</th>
+                  <th class="px-5 py-4 font-black">Date Recorded</th>
+                  <th class="px-5 py-4 font-black">Page URL</th>
+                </tr>
+              </thead>
+              <tbody id="responsesTable" class="divide-y divide-sky-100 bg-white/60 text-slate-700">
+                <tr>
+                  <td colspan="4" class="px-5 py-8 text-center font-bold text-slate-500">Loading responses...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      get,
+      child,
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB9XPhWKuL8ht9jIke5j_wYU8P-7GrE0Ro",
+      authDomain: "godparents-d142a.firebaseapp.com",
+      databaseURL: "https://godparents-d142a-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "godparents-d142a",
+      storageBucket: "godparents-d142a.firebasestorage.app",
+      messagingSenderId: "726080613575",
+      appId: "1:726080613575:web:74c3f6d2786191b71822e2",
+      measurementId: "G-R36Z19JRMC",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    const totalCount = document.getElementById("totalCount");
+    const yesCount = document.getElementById("yesCount");
+    const noCount = document.getElementById("noCount");
+    const responsesTable = document.getElementById("responsesTable");
+    const statusBox = document.getElementById("statusBox");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const searchInput = document.getElementById("searchInput");
+    const lastUpdated = document.getElementById("lastUpdated");
+
+    let allResponses = [];
+
+    function escapeHtml(value = "") {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showStatus(type, text) {
+      const classes = {
+        success: "mt-6 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-4 text-sm font-bold text-sky-700",
+        error: "mt-6 rounded-2xl border border-red-200 bg-red-50 px-4 py-4 text-sm font-bold text-red-700",
+        info: "mt-6 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-4 text-sm font-bold text-blue-700",
+      };
+
+      statusBox.className = classes[type] || classes.info;
+      statusBox.textContent = text;
+      statusBox.classList.remove("hidden");
+    }
+
+    function hideStatus() {
+      statusBox.classList.add("hidden");
+    }
+
+    function formatDate(value) {
+      if (!value) return "—";
+
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "—";
+
+      return date.toLocaleString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+
+    function answerBadge(answer) {
+      const normalizedAnswer = String(answer || "").toLowerCase();
+      const label = escapeHtml(answer || "—");
+
+      if (normalizedAnswer === "yes") {
+        return `<span class="inline-flex rounded-full border border-green-200 bg-green-100 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-green-700">${label}</span>`;
+      }
+
+      if (normalizedAnswer === "no") {
+        return `<span class="inline-flex rounded-full border border-red-200 bg-red-100 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-red-700">${label}</span>`;
+      }
+
+      return `<span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-slate-600">${label}</span>`;
+    }
+
+    function renderCounts(responses) {
+      const total = responses.length;
+      const yes = responses.filter((item) => String(item.answer).toLowerCase() === "yes").length;
+      const no = responses.filter((item) => String(item.answer).toLowerCase() === "no").length;
+
+      totalCount.textContent = total;
+      yesCount.textContent = yes;
+      noCount.textContent = no;
+    }
+
+    function renderTable() {
+      const query = searchInput.value.trim().toLowerCase();
+      const filteredResponses = allResponses.filter((item) => {
+        const searchable = `${item.name || ""} ${item.answer || ""} ${item.createdAt || ""}`.toLowerCase();
+        return searchable.includes(query);
+      });
+
+      if (!filteredResponses.length) {
+        responsesTable.innerHTML = `
+          <tr>
+            <td colspan="4" class="px-5 py-8 text-center font-bold text-slate-500">No responses found.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      responsesTable.innerHTML = filteredResponses.map((item) => {
+        const pageUrl = item.pageUrl
+          ? `<a class="max-w-xs truncate text-sky-600 underline decoration-sky-200 underline-offset-4" href="${escapeHtml(item.pageUrl)}" target="_blank" rel="noopener noreferrer">Open</a>`
+          : "—";
+
+        return `
+          <tr class="transition hover:bg-sky-50/80">
+            <td class="whitespace-nowrap px-5 py-4 font-black text-slate-900">${escapeHtml(item.name || item.key || "—")}</td>
+            <td class="whitespace-nowrap px-5 py-4">${answerBadge(item.answer)}</td>
+            <td class="whitespace-nowrap px-5 py-4 font-medium text-slate-600">${formatDate(item.createdAt)}</td>
+            <td class="whitespace-nowrap px-5 py-4 font-bold">${pageUrl}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function loadResponses() {
+      refreshBtn.disabled = true;
+      refreshBtn.textContent = "Loading...";
+      showStatus("info", "Loading latest results...");
+
+      try {
+        const snapshot = await get(child(ref(database), "responses"));
+        const data = snapshot.exists() ? snapshot.val() : {};
+
+        allResponses = Object.entries(data).map(([key, value]) => ({
+          key,
+          ...(value || {}),
+        })).sort((a, b) => {
+          const dateA = new Date(a.createdAt || 0).getTime();
+          const dateB = new Date(b.createdAt || 0).getTime();
+          return dateB - dateA;
+        });
+
+        renderCounts(allResponses);
+        renderTable();
+        hideStatus();
+        lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
+      } catch (error) {
+        console.error("loadResponses error:", error);
+        showStatus("error", `Unable to load responses: ${error.message}`);
+        responsesTable.innerHTML = `
+          <tr>
+            <td colspan="4" class="px-5 py-8 text-center font-bold text-red-500">Unable to load responses.</td>
+          </tr>
+        `;
+      } finally {
+        refreshBtn.disabled = false;
+        refreshBtn.textContent = "Refresh Results";
+      }
+    }
+
+    refreshBtn.addEventListener("click", loadResponses);
+    searchInput.addEventListener("input", renderTable);
+
+    loadResponses();
+  </script>
+</body>
+
+</html>
